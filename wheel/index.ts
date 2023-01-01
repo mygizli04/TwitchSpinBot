@@ -24,13 +24,18 @@ import fs from "fs/promises";
 const rewards: WheelReward[] = [];
 const stringOnlyRewards = (await import("./rewards.json", { assert: { type: "json" } })).default;
 
-for (const reward of await fs.readdir("./out/wheel/rewards")) {
-    if (reward.endsWith(".js")) {
-        import(`./rewards/${reward}`).then(reward => {
-            rewards.push(reward.default);
-        })
+try {
+    await fs.mkdir("./out/wheel/rewards");
+
+    for (const reward of await fs.readdir("./out/wheel/rewards")) {
+        if (reward.endsWith(".js")) {
+            import(`./rewards/${reward}`).then(reward => {
+                rewards.push(reward.default);
+            })
+        }
     }
 }
+finally {}
 
 /**
  * Spin the wheel!
