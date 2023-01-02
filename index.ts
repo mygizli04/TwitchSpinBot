@@ -47,6 +47,7 @@ let lastSpunUser: string | null = null;
 // Log when someone uses a channel point reward
 pubSubClient.onRedemption(userId, async (msg) => {
     if (msg.rewardTitle === "SPIN THE WHEEL") {
+        lastSpunUser = msg.userDisplayName;
         chatClient.say(process.env.CHANNEL_NAME!, "Spinning the wheel...");
         await sleep(3000)
         chatClient.say(process.env.CHANNEL_NAME!, spinTheWheel(msg.userDisplayName));
