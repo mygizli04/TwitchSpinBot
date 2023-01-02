@@ -21,8 +21,7 @@ const authProvider = new twurpleAuth.RefreshingAuthProvider({
     accessToken: process.env.CHANNEL_ACCESS_TOKEN,
     refreshToken: process.env.CHANNEL_REFRESH_TOKEN,
     expiresIn: null,
-    obtainmentTimestamp: 0,
-    scope: ["channel:read:redemptions"]
+    obtainmentTimestamp: 0
 });
 
 const botAuthProvider = new twurpleAuth.RefreshingAuthProvider({

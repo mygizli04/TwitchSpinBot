@@ -25,7 +25,7 @@ const rewards: WheelReward[] = [];
 const stringOnlyRewards = (await import("./rewards.json", { assert: { type: "json" } })).default;
 
 try {
-    await fs.mkdir("./out/wheel/rewards");
+    await fs.access("./out/wheel/rewards");
 
     for (const reward of await fs.readdir("./out/wheel/rewards")) {
         if (reward.endsWith(".js")) {
