@@ -42,6 +42,8 @@ const chatClient = new twurpleChat.ChatClient({
 const pubSubClient = new twurplePubSub.PubSubClient();
 const userId = await pubSubClient.registerUserListener(authProvider);
 
+let lastSpunUser: string | null = null;
+
 // Log when someone uses a channel point reward
 pubSubClient.onRedemption(userId, async (msg) => {
     if (msg.rewardTitle === "SPIN THE WHEEL") {
@@ -56,7 +58,7 @@ chatClient.onMessage(async (channel, user, message, msg) => {
         if (msg.userInfo.isMod || msg.userInfo.isBroadcaster || user === "sbeveuwu") {
             chatClient.say(channel, "Oops! My mistake, one sec pls. Spinning rn");
             await sleep(10 * 1000)
-            chatClient.say(channel, spinTheWheel(user));
+            chatClient.say(channel, spinTheWheel(lastSpunUser ?? user));
         }
     }
 });
