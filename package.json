@@ -5,8 +5,9 @@
   "main": "out/index.js",
   "type": "module",
   "scripts": {
-    "start": "tsc -p . && node out/index.js",
-    "setup": "tsc -p . && node out/setup.js"
+    "start": "node out/index.js",
+    "setup": "node out/setup.js",
+    "transpile": "tsc -p ."
   },
   "repository": {
     "type": "git",
