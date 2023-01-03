@@ -22,7 +22,7 @@ export abstract class WheelReward {
 import fs from "fs/promises";
 
 const rewards: WheelReward[] = [];
-const stringOnlyRewards = (await import("./rewards.json", { assert: { type: "json" } })).default;
+import stringOnlyRewards from "./rewards.json" assert { type: "json" };
 
 try {
     await fs.access("./out/wheel/rewards");
