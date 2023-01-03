@@ -111,3 +111,7 @@ out/
 
 # Unnecessary NPM files
 .npmrc
+
+# Secret token info
+botToken.json
+channelToken.json

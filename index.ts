@@ -10,6 +10,9 @@ import * as twurpleChat from "@twurple/chat";
 
 import { setTimeout as sleep } from "timers/promises";
 
+import fs from "fs/promises";
+import { fileExists } from "./utils.js";
+
 if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.BOT_REFRESH_TOKEN || !process.env.BOT_ACCESS_TOKEN || !process.env.CHANNEL_ACCESS_TOKEN || !process.env.CHANNEL_REFRESH_TOKEN || !process.env.CHANNEL_NAME) {
     throw new Error("Missing env variables");
 }
@@ -17,22 +20,23 @@ if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.BOT_REF
 const authProvider = new twurpleAuth.RefreshingAuthProvider({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-}, {
+    onRefresh(token) {
+        fs.writeFile("./channelToken.json", JSON.stringify(token, null, 4));
+    },
+}, await fileExists("./channelToken.json") ? await fs.readFile("./channelToken.json", "utf-8").then(JSON.parse) : {
     accessToken: process.env.CHANNEL_ACCESS_TOKEN,
-    refreshToken: process.env.CHANNEL_REFRESH_TOKEN,
-    expiresIn: null,
-    obtainmentTimestamp: 0
+    refreshToken: process.env.CHANNEL_REFRESH_TOKEN
 });
 
 const botAuthProvider = new twurpleAuth.RefreshingAuthProvider({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-},
-{
+    onRefresh(token) {
+        fs.writeFile("./botToken.json", JSON.stringify(token, null, 4));
+    }
+}, await fileExists("./botToken.json") ? await fs.readFile("./botToken.json", "utf-8").then(JSON.parse) : {
     accessToken: process.env.BOT_ACCESS_TOKEN,
-    refreshToken: process.env.BOT_REFRESH_TOKEN,
-    expiresIn: null,
-    obtainmentTimestamp: 0
+    refreshToken: process.env.BOT_REFRESH_TOKEN
 });
 const chatClient = new twurpleChat.ChatClient({
     authProvider: botAuthProvider,
