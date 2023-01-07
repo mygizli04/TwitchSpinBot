@@ -38,7 +38,7 @@ const botAuthProvider = new twurpleAuth.RefreshingAuthProvider({
     accessToken: process.env.BOT_ACCESS_TOKEN,
     refreshToken: process.env.BOT_REFRESH_TOKEN
 });
-const chatClient = new twurpleChat.ChatClient({
+export const chatClient = new twurpleChat.ChatClient({
     authProvider: botAuthProvider,
     channels: [process.env.CHANNEL_NAME],
 });
@@ -48,22 +48,59 @@ const userId = await pubSubClient.registerUserListener(authProvider);
 
 let lastSpunUser: string | null = null;
 
+/**
+ * Get the congratulations text.
+ * @param reward The reward that the user won.
+ * @param user The user that won the reward. If not provided, it will use the last spun user.
+ * @returns "Congratulations[ user]! You won [reward]!"
+ */
+export function getCongratulationsText(reward: string, user?: string): string {
+    if (user) {
+        return `Congratulations ${user}! You won ${reward}!`;
+    }
+    else if (lastSpunUser) {
+        return `Congratulations ${lastSpunUser}! You won ${reward}!`;
+    }
+    else {
+        return `Congratulations! You won ${reward}!`;
+    }
+}
+
 // Log when someone uses a channel point reward
 pubSubClient.onRedemption(userId, async (msg) => {
     if (msg.rewardTitle === "SPIN THE WHEEL") {
         lastSpunUser = msg.userDisplayName;
-        chatClient.say(process.env.CHANNEL_NAME!, "Spinning the wheel...");
+        chatClient.say(process.env.CHANNEL_NAME!, `Alright ${lastSpunUser}, Spinning the wheel...`);
         await sleep(3000)
-        chatClient.say(process.env.CHANNEL_NAME!, spinTheWheel(msg.userDisplayName));
+        
+        const reward = spinTheWheel();
+
+        if (reward.message) {
+            chatClient.say(process.env.CHANNEL_NAME!, reward.message);
+        }
     }
 });
 
 chatClient.onMessage(async (channel, user, message, msg) => {
     if (message === "!respin") {
         if (msg.userInfo.isMod || msg.userInfo.isBroadcaster || user === "sbeveuwu") {
-            chatClient.say(channel, "Oops! My mistake, one sec pls. Spinning rn");
-            await sleep(10 * 1000)
-            chatClient.say(channel, spinTheWheel(lastSpunUser ?? user));
+            let reply: string;
+
+            if (lastSpunUser) {
+                reply = `Ok ${user}, Spinning the wheel again for ${lastSpunUser}...`;
+            }
+            else {
+                reply = `Ok ${user}, Spinning the wheel again...`;
+            }
+
+            chatClient.say(channel, reply);
+            await sleep(3000)
+
+            const reward = spinTheWheel({user: lastSpunUser ?? user});
+
+            if (reward.message) {
+                chatClient.say(channel, reward.message);
+            }
         }
     }
 });

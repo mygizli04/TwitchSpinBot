@@ -1,6 +1,6 @@
 {
   "name": "twitchspinbot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Spin a wheel and get random rewards!",
   "main": "out/index.js",
   "type": "module",
