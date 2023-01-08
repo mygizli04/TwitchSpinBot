@@ -52,7 +52,7 @@ let lastSpunUser: string | null = null;
  * Get the congratulations text.
  * @param reward The reward that the user won.
  * @param user The user that won the reward. If not provided, it will use the last spun user.
- * @returns "Congratulations[ user]! You won [reward]!"
+ * @returns "Congratulations [user]! You won [reward]!"
  */
 export function getCongratulationsText(reward: string, user?: string): string {
     if (user) {
