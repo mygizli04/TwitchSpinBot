@@ -2,6 +2,7 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0";
 const { version } = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
 
 if (process.env.SPINBOT_DO_NOT_CHECK_UPDATE !== "1" && await update()) {
+    console.log(chalk.greenBright("Starting the install..."));
     process.exit(69);
 }
 
@@ -25,6 +26,7 @@ async function update(): Promise<boolean> {
         console.log(chalk.greenBright("Downloaded successfully, installing..."))
         const file = await download.arrayBuffer();
         fs.writeFileSync("../update.zip", Buffer.from(file));
+        return true;
     }
 
     return false;

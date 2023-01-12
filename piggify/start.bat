@@ -19,14 +19,22 @@ if %ERRORLEVEL% EQU 1 PAUSE
 exit /B
 
 :UPDATE
+echo Starting install...
+
 cd ..
+
+tar -xf update.zip
 
 rmdir /S /Q src
 
-move update/src .
-move /Y update/start.bat .
+del update.zip
 
-rmdir /S /Q update
+echo Installed successfully! Checking for dependency updates...
+
+cd src
+cmd /C npm i
+
+echo Done! Starting the bot...
 
 SPINBOT_DO_NOT_CHECK_UPDATE=1
 start.bat
