@@ -1,5 +1,5 @@
 name: Transpile
-on: deployment # Just never trigger
+on: workflow_dispatch
 jobs: 
   transpile:
     runs-on: ubuntu-latest
