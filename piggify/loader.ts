@@ -1,9 +1,11 @@
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0";
+const { version } = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
+
 if (process.env.SPINBOT_DO_NOT_CHECK_UPDATE !== "1" && await update()) {
     process.exit(69);
 }
 
 import fetch from "node-fetch";
-import { version } from "../package.json";
 import type { Endpoints } from "@octokit/types";
 import chalk from "chalk";
 import fs from "fs";

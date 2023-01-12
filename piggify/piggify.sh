@@ -12,10 +12,13 @@ cd src
 
 mv ../../out .
 cp ../../../package.json .
+cp ../../../package.json ./out
 cp ../../../package-lock.json .
 cp ../../../botToken.json .
 cp ../../../channelToken.json .
 cp ../../../.env .
+
+cp ../../../out/wheel/rewards.json ./out/wheel/rewards.json
 
 cd ..
 cp ../start.bat .
