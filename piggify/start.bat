@@ -1,9 +1,9 @@
 cd src
 node out/piggify/loader.js
 
-if ERRORLEVEL 69 goto UPDATE
+if %ERRORLEVEL% EQU 69 goto UPDATE
 
-if ERRORLEVEL 1 PAUSE
+if %ERRORLEVEL% EQU 1 PAUSE
 
 exit
 
