@@ -1,5 +1,8 @@
 @echo off
 
+rem We don't care about warnings if this script is being used to launch it.
+set NODE_NO_WARNINGS=1 
+
 cd src
 
 if not exist node_modules (
@@ -32,6 +35,7 @@ echo Installed successfully! Checking for dependency updates...
 cd src
 cmd /C npm i
 
+cls
 echo Done! Starting the bot...
 
 cd ..

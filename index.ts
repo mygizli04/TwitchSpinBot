@@ -1,5 +1,9 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0";
 
+import chalk from "chalk";
+
+console.log(chalk.greenBright("Starting the bot..."));
+
 import "dotenv/config";
 
 import { spinTheWheel } from "./wheel/index.js";
@@ -43,8 +47,14 @@ export const chatClient = new twurpleChat.ChatClient({
     channels: [process.env.CHANNEL_NAME],
 });
 
+chatClient.onRegister(() => {
+    console.log(chalk.greenBright(`Logged into chat as ${chatClient.currentNick}`));
+});
+
 const pubSubClient = new twurplePubSub.PubSubClient();
 const userId = await pubSubClient.registerUserListener(authProvider);
+
+console.log(chalk.greenBright(`(Probably) Started listening to wheel spins on the channel ${process.env.CHANNEL_NAME}!`));
 
 let lastSpunUser: string | null = null;
 
