@@ -33,7 +33,7 @@ del update.zip
 echo Installed successfully! Checking for dependency updates...
 
 cd src
-cmd /C npm i
+cmd /C npm i --omit=dev
 
 cls
 echo Done! Starting the bot...
