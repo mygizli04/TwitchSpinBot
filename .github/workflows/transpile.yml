@@ -1,5 +1,10 @@
 name: Transpile
-on: [workflow_dispatch, release]
+
+on: 
+  workflow-dispatch: []
+  release:
+    type: published
+
 jobs: 
   transpile:
     runs-on: ubuntu-latest
@@ -27,11 +32,11 @@ jobs:
       - uses: svenstaro/upload-release-action@v2
         if: ${{ github.event.action }} == "published"
         with:
-          asset_name: piggified
+          asset_name: piggified.zip
           file: piggify/piggy.zip
 
       - uses: svenstaro/upload-release-action@v2
         if: ${{ github.event.action }} == "published"
         with:
-          asset_name: transpiled
+          asset_name: transpiled.zip
           file: out
