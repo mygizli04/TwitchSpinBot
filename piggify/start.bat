@@ -25,8 +25,6 @@ cd ..
 
 tar -xf update.zip
 
-rmdir /S /Q src
-
 del update.zip
 
 echo Installed successfully! Checking for dependency updates...
