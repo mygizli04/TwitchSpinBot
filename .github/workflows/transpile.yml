@@ -35,8 +35,10 @@ jobs:
           asset_name: piggified.zip
           file: piggify/piggy.zip
 
+      - run: sh -c "cd out && zip -r transpiled.zip . && mv transpiled.zip .." 
+
       - uses: svenstaro/upload-release-action@v2
         if: ${{ github.event.action }} == "published"
         with:
           asset_name: transpiled.zip
-          file: out
+          file: transpiled.zip
