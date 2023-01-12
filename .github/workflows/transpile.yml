@@ -1,5 +1,5 @@
 name: Transpile
-on: []
+on: deployment # Just never trigger
 jobs: 
   transpile:
     runs-on: ubuntu-latest
