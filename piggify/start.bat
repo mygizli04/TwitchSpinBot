@@ -34,5 +34,7 @@ cmd /C npm i
 
 echo Done! Starting the bot...
 
-SPINBOT_DO_NOT_CHECK_UPDATE=1
-start.bat
+cd ..
+
+set SPINBOT_DO_NOT_CHECK_UPDATE=1
+cmd /C start.bat
