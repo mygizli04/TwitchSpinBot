@@ -1,7 +1,7 @@
 @echo off
 
 rem We don't care about warnings if this script is being used to launch it.
-set NODE_NO_WARNINGS=1 
+set NODE_NO_WARNINGS=1
 
 cd src
 
