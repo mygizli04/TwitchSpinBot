@@ -33,6 +33,7 @@
     "twurple": "^1.0.0"
   },
   "devDependencies": {
+    "@octokit/types": "^8.1.0",
     "@types/express": "^4.17.15",
     "@types/node": "^18.11.18",
     "@types/tmi.js": "^1.8.2",

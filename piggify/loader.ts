@@ -1,14 +1,30 @@
-
-if (process.env.SPINBOT_DO_NOT_CHECK_UPDATE !== "1" && await updateAvailable()) {
-    await downloadUpdate();
+if (process.env.SPINBOT_DO_NOT_CHECK_UPDATE !== "1" && await update()) {
     process.exit(69);
 }
 
-async function downloadUpdate(): Promise<void> {
-    // Copy new version into ../update
-}
+import fetch from "node-fetch";
+import { version } from "../package.json";
+import type { Endpoints } from "@octokit/types";
+import chalk from "chalk";
+import fs from "fs";
 
-async function updateAvailable(): Promise<boolean> {
+async function update(): Promise<boolean> {
+    const latestRelease = await fetch("https://api.github.com/repos/mygizli04/TwitchSpinBot/releases/latest", {
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28"
+        }
+    }).then(res => res.json() as Promise<Endpoints["GET /repos/{owner}/{repo}/releases/latest"]["response"]["data"]>);
+
+    if (latestRelease.tag_name !== `v${version}`) {
+        console.log(chalk.yellowBright(`\nNew version available: ${latestRelease.tag_name} (current: v${version})\n`));
+        console.log(chalk.yellowBright("Downloading..."))
+        const download = await fetch(latestRelease.assets.find(asset => asset.name === "piggified.zip")!.browser_download_url);
+        console.log(chalk.greenBright("Downloaded successfully, installing..."))
+        const file = await download.arrayBuffer();
+        fs.writeFileSync("../update.zip", Buffer.from(file));
+    }
+
     return false;
 }
 
