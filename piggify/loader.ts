@@ -24,9 +24,7 @@ async function update(): Promise<boolean> {
         // Print changelog
         console.log(chalk.yellowBright("Update notes:"));
         for (const line of latestRelease.body!.split("\n")) {
-            if (line.startsWith("-")) {
-                console.log(chalk.greenBright(line));
-            }
+            console.log(chalk.greenBright(line));
         }
         console.log(chalk.yellowBright("Downloading..."))
         const download = await fetch(latestRelease.assets.find(asset => asset.name === "piggified.zip")!.browser_download_url);
