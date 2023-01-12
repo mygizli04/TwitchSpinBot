@@ -31,16 +31,16 @@ jobs:
           path: out
 
       - uses: svenstaro/upload-release-action@v2
-        if: contains(fromJSON('["published"]'), github.event_name)
+        if: contains(fromJSON('["published"]'), github.event.action)
         with:
           asset_name: piggified.zip
           file: piggify/piggy.zip
 
       - run: sh -c "cd out && zip -r transpiled.zip . && mv transpiled.zip .."
-        if: contains(fromJSON('["published"]'), github.event_name)
+        if: contains(fromJSON('["published"]'), github.event.action)
 
       - uses: svenstaro/upload-release-action@v2
-        if: contains(fromJSON('["published"]'), github.event_name)
+        if: contains(fromJSON('["published"]'), github.event.action)
         with:
           asset_name: transpiled.zip
           file: transpiled.zip
