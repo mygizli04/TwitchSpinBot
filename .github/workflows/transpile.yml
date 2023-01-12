@@ -1,4 +1,5 @@
 name: Transpile
+on: []
 jobs: 
   transpile:
     runs-on: ubuntu-latest
