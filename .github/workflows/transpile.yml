@@ -1,5 +1,5 @@
 name: Transpile
-on: [workflow_dispatch, published]
+on: [workflow_dispatch, release]
 jobs: 
   transpile:
     runs-on: ubuntu-latest
