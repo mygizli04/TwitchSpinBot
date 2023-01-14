@@ -12,7 +12,6 @@ cd src
 
 mv ../../out .
 cp ../../../package.json .
-cp ../../../package.json ./out
 cp ../../../package-lock.json .
 cp ../../../botToken.json .
 cp ../../../channelToken.json .
