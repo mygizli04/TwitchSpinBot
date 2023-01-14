@@ -91,8 +91,6 @@ interface NonAutoExecutedWheelResult extends WheelResult {
     result: null
 }
 
-let ugh = false;
-
 /**
  * Spin the wheel!
  * 
