@@ -1,5 +1,5 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0";
-const { version } = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
+const { version }: {version: string} = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
 
 if (process.env.SPINBOT_DO_NOT_CHECK_UPDATE !== "1" && await update()) {
     console.log(chalk.greenBright("Starting the install..."));
