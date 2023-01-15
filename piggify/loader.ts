@@ -1,17 +1,26 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0";
-const { version }: {version: string} = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
 
-if (process.env.SPINBOT_DO_NOT_CHECK_UPDATE !== "1" && await update()) {
+import chalk from "chalk";
+
+const skipUpdate = process.env.SPINBOT_DO_NOT_CHECK_UPDATE !== "1";
+
+if (skipUpdate) {
+    console.log(chalk.yellowBright("Not checking for updates..."));
+}
+else if (await update()) {
     console.log(chalk.greenBright("Starting the install..."));
     process.exit(69);
 }
 
-import fetch from "node-fetch";
 import type { Endpoints } from "@octokit/types";
-import chalk from "chalk";
-import fs from "fs";
 
 async function update(): Promise<boolean> {
+    const fetch = (await import("node-fetch")).default;
+    const fs = (await import("fs")).default;
+    const { version }: {version: string} = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
+
+    console.log(chalk.yellowBright("Checking for updates..."));
+
     const latestRelease = await fetch("https://api.github.com/repos/mygizli04/TwitchSpinBot/releases/latest", {
         headers: {
             "Accept": "application/vnd.github+json",
@@ -34,6 +43,7 @@ async function update(): Promise<boolean> {
         return true;
     }
 
+    console.log(chalk.greenBright("No updates available."));
     return false;
 }
 
