@@ -18,6 +18,10 @@ export abstract class WheelReward {
     run(): string | null {return this.name};
 }
 
+export function isWheelReward(reward: WheelReward | StringOnlyWheelReward): reward is WheelReward {
+    return (reward as any)["run"] !== undefined;
+}
+
 export interface StringOnlyWheelReward {
     /**
      * The name of the reward.
@@ -133,7 +137,7 @@ export function spinTheWheel(options?: SpinArguments): WheelResult {
 
     const reward = allRewards[weightedRandom(allRewards.map(reward => reward.weight))];
 
-    if (!(reward instanceof WheelReward)) {
+    if (!isWheelReward(reward)) {
         return {
             reward: reward,
             result: null,
