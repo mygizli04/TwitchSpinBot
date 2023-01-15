@@ -10,9 +10,11 @@ const reward: WheelReward = {
     run() {
         chatClient.say(process.env.CHANNEL_NAME!, getCongratulationsText("respin") + " Respinning the wheel now...");
         
-        const reward = spinTheWheel({stringOnly: true});
-        
-        chatClient.say(process.env.CHANNEL_NAME!, reward.message);
+        const reward = spinTheWheel({exclude: ["respin"]});
+
+        if (reward.message) {
+            chatClient.say(process.env.CHANNEL_NAME!, reward.message);
+        }
 
         return null;
     },

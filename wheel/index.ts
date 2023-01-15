@@ -70,7 +70,12 @@ interface SpinArguments {
      * Whether or not to automatically execute the reward if it is not string only.
      * @default true
      */
-    autoExecute?: boolean
+    autoExecute?: boolean,
+
+    /**
+     * The names of the rewards that should not be selected.
+     */
+    exclude?: string[]
 }
 
 interface NonAutoExecuteSpinArguments extends SpinArguments {
@@ -125,12 +130,16 @@ export function spinTheWheel(options?: StringOnlySpinArguments): StringOnlyWheel
 export function spinTheWheel(options?: NonAutoExecuteSpinArguments): NonAutoExecutedWheelResult;
 export function spinTheWheel(options?: SpinArguments): WheelResult;
 export function spinTheWheel(options?: SpinArguments): WheelResult {
-    const { user, stringOnly } = options ?? {};
+    const { user, stringOnly, exclude } = options ?? {};
 
     const allRewards: (WheelReward | StringOnlyWheelReward)[] = [...stringOnlyRewards];
 
     if (!stringOnly) {
         allRewards.push(...rewards);
+    }
+
+    if (exclude) {
+        allRewards.filter(reward => !exclude.includes(reward.name));
     }
 
     const reward = allRewards[weightedRandom(allRewards.map(reward => reward.weight))];
