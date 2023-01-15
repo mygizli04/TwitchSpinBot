@@ -1,21 +1,78 @@
 [
-    "Gifted Sub",
-    "Punch Danny Devito",
-    "Free Game Choice 20 Min",
-    "New Discord Emote",
-    "Remix Ten",
-    "Throw Something",
-    "Community Wikipedia Race",
-    "You Laugh You Gift",
-    "Free Challenge Run",
-    "Touch Grass",
-    "Add A Command",
-    "Command The Raid",
-    "nothing",
-    "Tier 2 Gifted Sub",
-    "Apologize",
-    "Reverse Controls",
-    "Chug A Sprite",
-    "3 Attempts on Funny Skeleton",
-    "Die"
+    {
+        "name": "Gifted Sub",
+        "weight": 0.05
+    },
+    {
+        "name": "Punch Danny Devito",
+        "weight": 0.05
+    },
+    {
+        "name": "Free Game Choice 20 Min",
+        "weight": 0.05
+    },
+    {
+        "name": "New Discord Emote",
+        "weight": 0.05
+    },
+    {
+        "name": "Remix Ten",
+        "weight": 0.05
+    },
+    {
+        "name": "Throw Something",
+        "weight": 0.05
+    },
+    {
+        "name": "Community Wikipedia Race",
+        "weight": 0.05
+    },
+    {
+        "name": "You Laugh You Gift",
+        "weight": 0.05
+    },
+    {
+        "name": "Free Challenge Run",
+        "weight": 0.05
+    },
+    {
+        "name": "Touch Grass",
+        "weight": 0.05
+    },
+    {
+        "name": "Add A Command",
+        "weight": 0.05
+    },
+    {
+        "name": "Command The Raid",
+        "weight": 0.05
+    },
+    {
+        "name": "nothing",
+        "weight": 0.05
+    },
+    {
+        "name": "Tier 2 Gifted Sub",
+        "weight": 0.05
+    },
+    {
+        "name": "Apologize",
+        "weight": 0.05
+    },
+    {
+        "name": "Reverse Controls",
+        "weight": 0.05
+    },
+    {
+        "name": "Chug A Sprite",
+        "weight": 0.05
+    },
+    {
+        "name": "3 Attempts on Funny Skeleton",
+        "weight": 0.025
+    },
+    {
+        "name": "Die",
+        "weight": 0.05
+    }
 ]

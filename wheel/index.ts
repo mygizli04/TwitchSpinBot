@@ -5,12 +5,29 @@ export abstract class WheelReward {
     abstract name: string;
 
     /**
+     * The weight of the reward. (Higher weight = higher chance of being selected)
+     */
+    weight = 1;
+
+    /**
      * The function that is called when the reward is selected.
      * 
      * @returns The message that is sent to the chat such as "Congratulations [username]! You won [returned string]!"
      * if nothing is returned then there will be no message sent to the chat.
      */
     run(): string | null {return this.name};
+}
+
+export interface StringOnlyWheelReward {
+    /**
+     * The name of the reward.
+     */
+    name: string,
+
+    /**
+     * The weight of the reward. (Higher weight = higher chance of being selected)
+     */
+    weight: number
 }
 
 import fs from "fs/promises";
@@ -64,7 +81,7 @@ interface WheelResult {
     /**
      * The reward that is won.
      */
-    reward: WheelReward | string,
+    reward: WheelReward | StringOnlyWheelReward,
 
     /**
      * Result of the reward if it is not string only.
@@ -78,7 +95,7 @@ interface WheelResult {
 }
 
 interface StringOnlyWheelResult extends WheelResult {
-    reward: string,
+    reward: StringOnlyWheelReward,
 
     result: null,
 
@@ -90,6 +107,8 @@ interface NonAutoExecutedWheelResult extends WheelResult {
 
     result: null
 }
+
+import weightedRandom from "weighted-random";
 
 /**
  * Spin the wheel!
@@ -104,19 +123,21 @@ export function spinTheWheel(options?: SpinArguments): WheelResult;
 export function spinTheWheel(options?: SpinArguments): WheelResult {
     const { user, stringOnly } = options ?? {};
 
-    const allRewards: (WheelReward | string)[] = [...rewards];
+    const allRewards: (WheelReward | StringOnlyWheelReward)[] = [...rewards];
 
     if (!stringOnly) {
         allRewards.push(...stringOnlyRewards);
     }
 
-    const reward = allRewards[Math.floor(Math.random() * allRewards.length)];
+    //const reward = allRewards[Math.floor(Math.random() * allRewards.length)];
 
-    if (typeof reward === "string") {
+    const reward = allRewards[weightedRandom(allRewards.map(reward => reward.weight))];
+
+    if (!(reward instanceof WheelReward)) {
         return {
             reward: reward,
             result: null,
-            message: getCongratulationsText(reward, user)
+            message: getCongratulationsText(reward.name, user)
         }
     }
     else {

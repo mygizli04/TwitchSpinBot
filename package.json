@@ -28,7 +28,8 @@
     "dotenv": "^16.0.3",
     "node-fetch": "^3.3.0",
     "open": "^8.4.0",
-    "twurple": "^1.0.0"
+    "twurple": "^1.0.0",
+    "weighted-random": "^0.1.0"
   },
   "devDependencies": {
     "@octokit/types": "^8.1.0",

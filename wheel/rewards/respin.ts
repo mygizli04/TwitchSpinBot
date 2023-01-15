@@ -5,6 +5,8 @@ import { chatClient, getCongratulationsText } from "../../index.js";
 const reward: WheelReward = {
     name: "respin",
 
+    weight: 0.05,
+
     run() {
         chatClient.say(process.env.CHANNEL_NAME!, getCongratulationsText("respin") + " Respinning the wheel now...");
         
