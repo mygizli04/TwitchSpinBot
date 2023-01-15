@@ -127,10 +127,10 @@ export function spinTheWheel(options?: SpinArguments): WheelResult;
 export function spinTheWheel(options?: SpinArguments): WheelResult {
     const { user, stringOnly } = options ?? {};
 
-    const allRewards: (WheelReward | StringOnlyWheelReward)[] = [...rewards];
+    const allRewards: (WheelReward | StringOnlyWheelReward)[] = [...stringOnlyRewards];
 
     if (!stringOnly) {
-        allRewards.push(...stringOnlyRewards);
+        allRewards.push(...rewards);
     }
 
     const reward = allRewards[weightedRandom(allRewards.map(reward => reward.weight))];
