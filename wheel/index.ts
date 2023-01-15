@@ -133,8 +133,6 @@ export function spinTheWheel(options?: SpinArguments): WheelResult {
         allRewards.push(...stringOnlyRewards);
     }
 
-    //const reward = allRewards[Math.floor(Math.random() * allRewards.length)];
-
     const reward = allRewards[weightedRandom(allRewards.map(reward => reward.weight))];
 
     if (!isWheelReward(reward)) {
