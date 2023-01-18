@@ -18,8 +18,8 @@ export abstract class WheelReward {
     run(): string | null {return this.name};
 }
 
-export function isWheelReward(reward: WheelReward | StringOnlyWheelReward): reward is WheelReward {
-    return (reward as any)["run"] !== undefined;
+export function isWheelReward(reward: any): reward is WheelReward {
+    return reward["run"] !== undefined;
 }
 
 export interface StringOnlyWheelReward {
