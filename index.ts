@@ -15,7 +15,7 @@ import * as twurpleChat from "@twurple/chat";
 import { setTimeout as sleep } from "timers/promises";
 
 import fs from "fs/promises";
-import { fileExists } from "./utils.js";
+import { fileExists, randomChance } from "./utils.js";
 
 if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.BOT_REFRESH_TOKEN || !process.env.BOT_ACCESS_TOKEN || !process.env.CHANNEL_ACCESS_TOKEN || !process.env.CHANNEL_REFRESH_TOKEN || !process.env.CHANNEL_NAME) {
     throw new Error("Missing env variables");
@@ -47,8 +47,22 @@ export const chatClient = new twurpleChat.ChatClient({
     channels: [process.env.CHANNEL_NAME],
 });
 
-chatClient.onRegister(() => {
+chatClient.onRegister(async () => {
     console.log(chalk.greenBright(`Logged into chat as ${chatClient.currentNick}`));
+
+    setInterval(async () => {
+        if (randomChance(1 / 200)) {
+            chatClient.say(process.env.CHANNEL_NAME!, "Random wheel spin time! Please wait...");
+
+            await sleep(3000);
+
+            const reward = spinTheWheel({ user: null });
+
+            if (reward.message) {
+                chatClient.say(process.env.CHANNEL_NAME!, reward.message);
+            }
+        }
+    }, 5 * 60 * 1000)
 });
 
 const pubSubClient = new twurplePubSub.PubSubClient();
@@ -64,11 +78,11 @@ let lastSpunUser: string | null = null;
  * @param user The user that won the reward. If not provided, it will use the last spun user.
  * @returns "Congratulations [user]! You won [reward]!"
  */
-export function getCongratulationsText(reward: string, user?: string): string {
+export function getCongratulationsText(reward: string, user?: string | null): string {
     if (user) {
         return `Congratulations ${user}! You won ${reward}!`;
     }
-    else if (lastSpunUser) {
+    else if (user !== null && lastSpunUser) {
         return `Congratulations ${lastSpunUser}! You won ${reward}!`;
     }
     else {

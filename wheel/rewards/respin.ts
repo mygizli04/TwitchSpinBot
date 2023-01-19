@@ -7,6 +7,8 @@ const reward: WheelReward = {
 
     weight: 0.05,
 
+    requiresUser: false,
+
     run() {
         chatClient.say(process.env.CHANNEL_NAME!, getCongratulationsText("respin") + " Respinning the wheel now...");
         

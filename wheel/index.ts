@@ -9,6 +9,8 @@ export abstract class WheelReward {
      */
     weight = 1;
 
+    abstract requiresUser: boolean;
+
     /**
      * The function that is called when the reward is selected.
      * 
@@ -27,6 +29,11 @@ export interface StringOnlyWheelReward {
      * The name of the reward.
      */
     name: string,
+
+    /**
+     * Whether or not the reward requires a user.
+     */
+    requiresUser: boolean,
 
     /**
      * The weight of the reward. (Higher weight = higher chance of being selected)
@@ -56,9 +63,14 @@ finally {}
 interface SpinArguments {
     /**
      * The name of the user that spun the wheel.
+     * 
+     * If not provided, it will use the last spun user.
+     * 
+     * If null, it will not use a user.
+     * 
      * @default lastSpunUser
      */
-    user?: string,
+    user?: string | null,
 
     /**
      * Whether or not to only use string rewards.
@@ -140,6 +152,10 @@ export function spinTheWheel(options?: SpinArguments): WheelResult {
 
     if (exclude) {
         allRewards.filter(reward => !exclude.includes(reward.name));
+    }
+
+    if (user === null) {
+        allRewards.filter(reward => reward.requiresUser);
     }
 
     const reward = allRewards[weightedRandom(allRewards.map(reward => reward.weight))];

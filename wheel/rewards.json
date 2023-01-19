@@ -1,78 +1,97 @@
 [
     {
         "name": "Gifted Sub",
+        "requiresUser": true,
         "weight": 0.05
     },
     {
         "name": "Kiss Danny Devito",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Free Game Choice 20 Min",
+        "requiresUser": true,
         "weight": 0.05
     },
     {
         "name": "New Discord Emote",
+        "requiresUser": true,
         "weight": 0.05
     },
     {
         "name": "Remix Ten",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Throw Something",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Community Wikipedia Race",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "You Laugh You Gift",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Free Challenge Run",
+        "requiresUser": true,
         "weight": 0.05
     },
     {
         "name": "Touch Grass",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Add A Command",
+        "requiresUser": true,
         "weight": 0.05
     },
     {
         "name": "Command The Raid",
+        "requiresUser": true,
         "weight": 0.05
     },
     {
         "name": "nothing",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Tier 2 Gifted Sub",
+        "requiresUser": true,
         "weight": 0.05
     },
     {
         "name": "Apologize",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Reverse Controls",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Chug A Sprite",
+        "requiresUser": false,
         "weight": 0.05
     },
     {
         "name": "Attempt Funny Skeleton",
+        "requiresUser": false,
         "weight": 0.025
     },
     {
         "name": "Die",
+        "requiresUser": false,
         "weight": 0.05
     }
 ]
