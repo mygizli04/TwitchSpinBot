@@ -41,24 +41,9 @@ export interface StringOnlyWheelReward {
     weight: number
 }
 
-import fs from "fs/promises";
 import { getCongratulationsText } from "../index.js";
 
-const rewards: WheelReward[] = [];
-import stringOnlyRewards from "./rewards.json" assert { type: "json" };
-
-try {
-    await fs.access("./out/wheel/rewards");
-
-    for (const reward of await fs.readdir("./out/wheel/rewards")) {
-        if (reward.endsWith(".js")) {
-            import(`./rewards/${reward}`).then(reward => {
-                rewards.push(reward.default);
-            })
-        }
-    }
-}
-finally {}
+import { getRewards, increaseWeights, reduceWeight } from "./rewards.js";
 
 interface SpinArguments {
     /**
@@ -142,23 +127,22 @@ export function spinTheWheel(options?: StringOnlySpinArguments): StringOnlyWheel
 export function spinTheWheel(options?: NonAutoExecuteSpinArguments): NonAutoExecutedWheelResult;
 export function spinTheWheel(options?: SpinArguments): WheelResult;
 export function spinTheWheel(options?: SpinArguments): WheelResult {
-    const { user, stringOnly, exclude } = options ?? {};
+    const { user, exclude } = options ?? {};
 
-    const allRewards: (WheelReward | StringOnlyWheelReward)[] = [...stringOnlyRewards];
-
-    if (!stringOnly) {
-        allRewards.push(...rewards);
-    }
+    const rewards: (WheelReward | StringOnlyWheelReward)[] = getRewards();
 
     if (exclude) {
-        allRewards.filter(reward => !exclude.includes(reward.name));
+        rewards.filter(reward => !exclude.includes(reward.name));
     }
 
     if (user === null) {
-        allRewards.filter(reward => reward.requiresUser);
+        rewards.filter(reward => reward.requiresUser);
     }
 
-    const reward = allRewards[weightedRandom(allRewards.map(reward => reward.weight))];
+    const reward = rewards[weightedRandom(rewards.map(reward => reward.weight))];
+
+    reduceWeight(reward.name);
+    increaseWeights(reward.name);
 
     if (!isWheelReward(reward)) {
         return {
