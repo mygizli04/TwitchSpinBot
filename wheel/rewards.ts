@@ -4,8 +4,6 @@ import { StringOnlyWheelReward, WheelReward } from "./index.js";
 const stringOnlyRewards = await fs.readFile("./out/wheel/rewards.json", "utf-8").then(JSON.parse) as StringOnlyWheelReward[];
 const wheelRewards: WheelReward[] = [];
 
-let reduced: { [key: string]: number } = {};
-
 let doneImporting = false;
 
 try {
