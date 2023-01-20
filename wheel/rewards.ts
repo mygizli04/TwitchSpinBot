@@ -29,11 +29,13 @@ const rewards: (WheelReward | StringOnlyWheelReward)[] = [...stringOnlyRewards];
 export function getRewards(): StringOnlyWheelReward[] {
     let ret = [...rewards];
 
-    increaseWeights();
-
     return ret;
 }
 
+/**
+ * Reduced the probability of a reward being selected for one hour.
+ * @param reward The name of the reward.
+ */
 export function reduceWeight(reward: string): void {
     if (!doneImporting) return;
 
@@ -45,25 +47,7 @@ export function reduceWeight(reward: string): void {
 
     rewards[rewardIndex].weight /= 2;
 
-    reduced[reward] = reduced[reward] ? reduced[reward] + 1 : 1;
-}
-
-export function increaseWeights(except?: string): void {
-    for (const reward in reduced) {
-        if (reward === except) continue;
-
-        const rewardIndex = rewards.findIndex(r => r.name === reward);
-
-        if (rewardIndex === -1) {
-            throw new Error("Reward not found");
-        }
-
+    setTimeout(() => {
         rewards[rewardIndex].weight *= 2;
-
-        reduced[reward] -= 1;
-
-        if (reduced[reward] === 0) {
-            delete reduced[reward];
-        }
-    }
+    }, 1 * 60 * 60 * 1000)
 }

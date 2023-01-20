@@ -43,7 +43,7 @@ export interface StringOnlyWheelReward {
 
 import { getCongratulationsText } from "../index.js";
 
-import { getRewards, increaseWeights, reduceWeight } from "./rewards.js";
+import { getRewards, reduceWeight } from "./rewards.js";
 
 interface SpinArguments {
     /**
@@ -142,7 +142,6 @@ export function spinTheWheel(options?: SpinArguments): WheelResult {
     const reward = rewards[weightedRandom(rewards.map(reward => reward.weight))];
 
     reduceWeight(reward.name);
-    increaseWeights(reward.name);
 
     if (!isWheelReward(reward)) {
         return {
