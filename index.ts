@@ -51,7 +51,7 @@ chatClient.onRegister(async () => {
     console.log(chalk.greenBright(`Logged into chat as ${chatClient.currentNick}`));
 
     setInterval(async () => {
-        if (randomChance(1 / 200)) {
+        if (randomChance(1 / 20)) {
             chatClient.say(process.env.CHANNEL_NAME!, "Random wheel spin time! Please wait...");
 
             await sleep(3000);
