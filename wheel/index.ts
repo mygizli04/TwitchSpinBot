@@ -9,6 +9,9 @@ export abstract class WheelReward {
      */
     weight = 1;
 
+    /**
+     * Whether or not the reward requires a user.
+     */
     abstract requiresUser: boolean;
 
     /**
