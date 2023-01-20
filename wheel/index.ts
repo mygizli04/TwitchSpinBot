@@ -58,29 +58,9 @@ interface SpinArguments {
     user?: string | null,
 
     /**
-     * Whether or not to only use string rewards.
-     * @default false
-     */
-    stringOnly?: boolean,
-
-    /**
-     * Whether or not to automatically execute the reward if it is not string only.
-     * @default true
-     */
-    autoExecute?: boolean,
-
-    /**
      * The names of the rewards that should not be selected.
      */
     exclude?: string[]
-}
-
-interface NonAutoExecuteSpinArguments extends SpinArguments {
-    autoExecute: false
-}
-
-interface StringOnlySpinArguments extends SpinArguments {
-    stringOnly: true
 }
 
 interface WheelResult {
@@ -90,28 +70,9 @@ interface WheelResult {
     reward: WheelReward | StringOnlyWheelReward,
 
     /**
-     * Result of the reward if it is not string only.
-     */
-    result: string | null,
-
-    /**
      * The message that is sent to the chat such as "Congratulations [username]! You won [returned string]!"
      */
     message: string | null
-}
-
-interface StringOnlyWheelResult extends WheelResult {
-    reward: StringOnlyWheelReward,
-
-    result: null,
-
-    message: string
-}
-
-interface NonAutoExecutedWheelResult extends WheelResult {
-    message: null,
-
-    result: null
 }
 
 import weightedRandom from "weighted-random";
@@ -122,10 +83,6 @@ import weightedRandom from "weighted-random";
  * @param name The name of the user that spun the wheel.
  * @returns The reward that is won
 */
-export function spinTheWheel(): WheelResult;
-export function spinTheWheel(options?: StringOnlySpinArguments): StringOnlyWheelResult;
-export function spinTheWheel(options?: NonAutoExecuteSpinArguments): NonAutoExecutedWheelResult;
-export function spinTheWheel(options?: SpinArguments): WheelResult;
 export function spinTheWheel(options?: SpinArguments): WheelResult {
     const { user, exclude } = options ?? {};
 
@@ -146,7 +103,6 @@ export function spinTheWheel(options?: SpinArguments): WheelResult {
     if (!isWheelReward(reward)) {
         return {
             reward: reward,
-            result: null,
             message: getCongratulationsText(reward.name, user)
         }
     }
@@ -156,14 +112,12 @@ export function spinTheWheel(options?: SpinArguments): WheelResult {
         if (message === null) {
             return {
                 reward: reward,
-                result: null,
                 message: null
             }
         }
         else {
             return {
                 reward: reward,
-                result: message,
                 message: getCongratulationsText(message, user)
             }
         }
