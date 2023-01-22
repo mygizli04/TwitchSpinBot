@@ -17,7 +17,8 @@ cp ../../../botToken.json .
 cp ../../../channelToken.json .
 cp ../../../.env .
 
-cp ../../../out/wheel/rewards.json ./out/wheel/rewards.json
+mkdir wheel
+cp ../../../wheel/rewards.json ./wheel/rewards.json
 
 cd ..
 cp ../start.bat .

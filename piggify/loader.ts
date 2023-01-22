@@ -2,7 +2,7 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0";
 
 import chalk from "chalk";
 
-const skipUpdate = process.env.SPINBOT_DO_NOT_CHECK_UPDATE !== "1";
+const skipUpdate = process.env.SPINBOT_DO_NOT_CHECK_UPDATE === "1";
 
 if (skipUpdate) {
     console.log(chalk.yellowBright("Not checking for updates..."));

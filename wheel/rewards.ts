@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import { StringOnlyWheelReward, WheelReward } from "./index.js";
 
-const stringOnlyRewards = await fs.readFile("./out/wheel/rewards.json", "utf-8").then(JSON.parse) as StringOnlyWheelReward[];
+const stringOnlyRewards = await fs.readFile("./wheel/rewards.json", "utf-8").then(JSON.parse) as StringOnlyWheelReward[];
 const wheelRewards: WheelReward[] = [];
 
 let doneImporting = false;
