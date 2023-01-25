@@ -2,27 +2,21 @@ import fs from "fs/promises";
 import { StringOnlyWheelReward, WheelReward } from "./index.js";
 
 const stringOnlyRewards = await fs.readFile("./wheel/rewards.json", "utf-8").then(JSON.parse) as StringOnlyWheelReward[];
-const wheelRewards: WheelReward[] = [];
 
-let doneImporting = false;
+const rewards: (WheelReward | StringOnlyWheelReward)[] = [...stringOnlyRewards];
 
 try {
     await fs.access("./out/wheel/rewards");
 
     for (const reward of await fs.readdir("./out/wheel/rewards")) {
         if (reward.endsWith(".js")) {
-            import(`./rewards/${reward}`).then(reward => {
-                wheelRewards.push(reward.default);
-                rewards.push(reward.default);
-            })
+            const rewardFile = (await import(`./rewards/${reward}`)).default
+            rewards.push(rewardFile);
         }
     }
-
-    doneImporting = true;
 }
 finally {}
 
-const rewards: (WheelReward | StringOnlyWheelReward)[] = [...stringOnlyRewards];
 
 export function getRewards(): StringOnlyWheelReward[] {
     let ret = [...rewards];
@@ -35,8 +29,6 @@ export function getRewards(): StringOnlyWheelReward[] {
  * @param reward The name of the reward.
  */
 export function reduceWeight(reward: string): void {
-    if (!doneImporting) return;
-
     const rewardIndex = rewards.findIndex(r => r.name === reward);
 
     if (rewardIndex === -1) {
